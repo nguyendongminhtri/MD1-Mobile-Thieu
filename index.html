@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="onOff-Iphone" onclick="onOff(this.id)">
+    POWER
+</button>
+<button id="status-Iphone" onclick="checkStatus(this.id)">Status</button>
+<button id="message-Iphone" onclick="sendMessage(this.id)">Send</button>
+<br>
+<textarea id="iphone" name="" cols="30"  rows="10"></textarea>
+<hr>
+<button id="onOff-Nokia" onclick="onOff(this.id)">
+    POWER
+</button>
+<button id="status-Nokia" onclick="checkStatus(this.id)">Status</button>
+<button id="inbox-Nokia" onclick="checkInBox(this.id)">InBox</button>
+<br>
+<textarea id="nokia" cols="30" rows="10"></textarea>
+</body>
+</html>
+<script>
+    class Phone {
+        constructor(onOff,name,energy,message,outBox, inBox) {
+            this.onOff = onOff;
+            this.name = name;
+            this.message = message;
+            this.outBox = outBox;
+            this.inBox = inBox;
+        }
+       setOnOff(onOff){
+            this.onOff = onOff;
+       }
+       getOnOff(){
+            return this.onOff;
+       }
+       setName(name){
+            this.name = name;
+       }
+       getName(){
+            return this.name;
+       }
+       setMessage(message){
+            this.message = message;
+       }
+       getMessage(){
+            return this.message;
+       }
+       getInbox(){
+            return this.inBox;
+       }
+       setInbox(inBox){
+            this.inBox = inBox;
+       }
+        getOutBox(){
+            return this.outBox;
+        }
+        setOutBox(outBox){
+            this.outBox = outBox;
+        }
+    }
+    let IPHONE = new Phone(false,'IPHONE',100,'');
+    let NOKIA = new Phone(false, 'NOKIA',100,'');
+    function onOff(id) {
+        if(id==='onOff-Iphone'){
+            IPHONE.setOnOff(!IPHONE.getOnOff());
+            if(IPHONE.getOnOff()){
+                document.getElementById('onOff-Iphone').innerHTML = 'ON';
+                document.getElementById('iphone').innerHTML = '';
+            } else {
+                document.getElementById('onOff-Iphone').innerHTML = 'OFF'
+                document.getElementById('iphone').innerHTML = '';
+            }
+        } else if(id==='onOff-Nokia'){
+            NOKIA.setOnOff(!NOKIA.getOnOff());
+            if(NOKIA.getOnOff()){
+                document.getElementById('onOff-Nokia').innerHTML = 'ON'
+            } else {
+                document.getElementById('onOff-Nokia').innerHTML = 'OFF'
+                document.getElementById('nokia').innerHTML = '';
+            }
+        }
+    }
+    function checkStatus(id) {
+        if(id==='status-Iphone'){
+            if(IPHONE.getOnOff()){
+                console.log('vao day khong')
+                document.getElementById('iphone').innerHTML = 'The I Phone is ON'
+            } else {
+                document.getElementById('iphone').innerHTML = 'The I Phone is OFF'
+            }
+        } else if(id==='status-Nokia'){
+            if(IPHONE.getOnOff()){
+                console.log('vao day khong')
+                document.getElementById('nokia').innerHTML = 'The I Nokia is ON'
+            } else {
+                document.getElementById('nokia').innerHTML = 'The I Nokia is OFF'
+            }
+        }
+    }
+    let countI = 0;
+    function sendMessage(id) {
+        if(id==='message-Iphone'){
+            countI++
+            let _outBox = [];
+            if(document.getElementById('iphone').value!==''){
+                if(IPHONE.getOutBox()==undefined){
+                    _outBox.push(document.getElementById('iphone').value);
+                    IPHONE.setOutBox(_outBox);
+                } else {
+                    IPHONE.getOutBox().push(document.getElementById('iphone').value)
+                }
+
+                document.getElementById('nokia').value = 'You have '+countI +' new message!'
+                document.getElementById('iphone').value = '';
+            }
+        }
+    }
+
+    console.log('outBox ngoài if', IPHONE.getOutBox())
+function checkInBox(id) {
+    if(id==='inbox-Nokia'){
+        NOKIA.setInbox(IPHONE.getOutBox());
+        document.getElementById('nokia').value = NOKIA.getInbox().join('-')
+        countI = 0;
+    }
+}
+</script>
